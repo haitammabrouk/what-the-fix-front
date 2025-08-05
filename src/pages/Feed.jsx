@@ -8,7 +8,7 @@ import Card from '../components/Card'
 
 function Feed() {
   return (
-    <div className='feed w-full h-screen bg-secondary'>
+    <div className='feed w-full h-full bg-secondary'>
       <Navbar />
       <div className='pt-20'>
         <div className='content space-y-4'>
@@ -34,10 +34,13 @@ function Feed() {
             </div>
         </div>
         <div className='flex justify-center'>
-            <ul className='problems pt-10'>
-                    <li>
-                        <Card />
-                    </li>
+            <ul className='problems pt-10 space-y-10'>
+              <li>
+                <Card />
+              </li>
+              <li>
+                <Card />
+              </li>
             </ul>
         </div>
       </div>

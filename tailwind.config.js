@@ -17,7 +17,10 @@ export default {
         loginInput: '600px',
         homeTitle: '1000px',
         searchBar: '800px',
-        cardItem: '985px',
+        cardItem: '995px',
+      },
+      height: {
+        cardHeight: '440px'
       }
     },
   },
