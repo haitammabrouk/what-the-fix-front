@@ -12,6 +12,7 @@ export default {
         violet: 'var(--violet)',
         grey: 'var(--grey)',
         white: 'var(--white)',
+        darkViolet: 'var(--dark-violet)',
       },
       width: {
         loginInput: '600px',

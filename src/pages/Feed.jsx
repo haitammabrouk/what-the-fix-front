@@ -6,12 +6,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import Card from '../components/Card'
 import FixPopup from '../components/FixPopup'
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function Feed() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [openToast, setOpenToast] = useState(false);
+  const [isReqSuccess, setIsReqSuccess] = useState(false);
+
+  const checkIfReqIsSuccess = (isReqSuccess) => setIsReqSuccess(isReqSuccess);
 
   const openPopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
+
+  const handleClick = () => setOpenToast(true);
+
+  const handleClose = (
+    event,
+    reason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenToast(false);
+  };
 
   return (
     <div className='feed w-full h-full bg-secondary'>
@@ -55,10 +74,36 @@ function Feed() {
       {isPopupOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
           <div className='relative'>
-            <FixPopup onClose={closePopup} />
+            <FixPopup checkIfReqIsSuccess={checkIfReqIsSuccess} handleClick={handleClick} onClose={closePopup} />
           </div>
         </div>
       )}
+
+      <Snackbar className='mt-14' open={openToast} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <Alert
+          onClose={handleClose}
+          severity={isReqSuccess ? `success` : `error`}
+          variant="filled"
+          sx={{
+            width: '100%',
+            '& .MuiAlert-message': {
+            fontSize: '18px',
+            fontWeight: '500'
+            },
+            '& .MuiAlert-icon': {
+              fontSize: '26px'
+            },
+            '& .MuiAlert-action': {
+              '& .MuiIconButton-root': {
+                '& .MuiSvgIcon-root': {
+                  fontSize: '26px'
+                }
+              }
+            }
+          }}>
+          {isReqSuccess ? `Your future self will thank you for this moment.` : `Something went wrong while saving your fix.`}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

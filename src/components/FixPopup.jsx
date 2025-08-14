@@ -1,10 +1,21 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import bulb from '../assets/bulb.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import api from '../api/config';
 
-function FixPopup({ onClose }) {
+function FixPopup({ onClose, handleClick, checkIfReqIsSuccess }) {
   const popupRef = useRef(null);
+  const [problem, setProblem] = useState('');
+  const [solution, setSolution] = useState('');
+
+  const handleProblemChange = (e) => {
+    setProblem(e.target.value)
+  }
+
+  const handleSolutionChange = (e) => {
+    setSolution(e.target.value)
+  }
 
   // Handle click outside to close popup
   useEffect(() => {
@@ -37,12 +48,23 @@ function FixPopup({ onClose }) {
     };
   }, [onClose]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted');
-    // Close popup after submission
-    onClose();
+    const formData = {
+        problem: problem,
+        solution: solution,
+        user_id: 1
+    }
+    try {
+        const response = await api.post('/fixes', formData);
+        console.log('Form submitted: ', response.data);
+        onClose(); // close the popup
+        checkIfReqIsSuccess(true);
+    } catch(error) {
+        console.error('Error creating a fix: ', error);
+        checkIfReqIsSuccess(false);
+    }
+    handleClick(); // display the snack
   };
 
   return (
@@ -70,28 +92,32 @@ function FixPopup({ onClose }) {
             <div className='problem space-y-1'>
                 <label className='block' htmlFor='problem'>What broke this time ?</label>
                 <input 
-                  className='outline-none w-popupInput h-10 border border-primary text-lg rounded-xl px-3 focus:border-violet focus:ring-2 focus:ring-violet focus:ring-opacity-20' 
+                  className='outline-none w-popupInput h-10 border border-primary text-lg rounded-xl px-3 focus:border-violet' 
                   placeholder='describe the nightmare you encountered...' 
                   id='problem' 
                   name='problem' 
                   type='text' 
                   required
+                  value={problem}
+                  onChange={handleProblemChange}
                 />
             </div>
-            <div className='fix space-y-1'>
-                <label className='block' htmlFor='fix'>The Magic Fix</label>
+            <div className='solution space-y-1'>
+                <label className='block' htmlFor='solution'>The Magic Fix</label>
                 <textarea
-                    className='outline-none w-popupInput h-40 border border-primary text-lg rounded-xl px-3 py-2 resize-none focus:border-violet focus:ring-2 focus:ring-violet focus:ring-opacity-20' 
+                    className='outline-none w-popupInput h-40 border border-primary text-lg rounded-xl px-3 py-2 resize-none focus:border-violet' 
                     placeholder='How did you tame the beast ?' 
-                    id='fix' 
-                    name='fix' 
+                    id='solution' 
+                    name='solution' 
                     required
+                    value={solution}
+                    onChange={handleSolutionChange}
                  />
             </div>
             <div className='flex justify-between'>
                 <div></div>
                 <button 
-                  className='text-lg cursor-pointer flex items-center justify-center space-x-4 font-semibold text-secondary bg-violet hover:bg-violet-600 transition-colors rounded-lg h-12 w-24' 
+                  className='text-lg hover:bg-darkViolet cursor-pointer flex items-center justify-center space-x-4 font-semibold text-secondary bg-violet hover:bg-violet-600 transition-colors rounded-lg h-12 w-24' 
                   type='submit'
                 >
                     <span>Save</span>
