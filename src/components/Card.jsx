@@ -19,7 +19,7 @@ function Card() {
               <span className='text-xl font-semibold text'>The Problem</span>
           </div>
         </div>
-        <p className='text-xl font-normal pt-3 line-clamp-2'>Items not centering properly with flexbox despite using justify-content 
+        <p className='text-lg font-normal pt-3 line-clamp-2'>Items not centering properly with flexbox despite using justify-content 
               and align-items. CSS is apparently having trust issues with me again.</p>
         <div className='space-y-6 pt-5'>
           <div className='flex items-center space-x-2'>
@@ -27,7 +27,7 @@ function Card() {
               <span className='text-xl font-semibold text'>The Solution</span>
           </div>
         </div>
-        <p className='text-xl font-normal pt-3 pb-4 line-clamp-2'>Items not centering properly with flexbox despite using justify-content 
+        <p className='text-lg font-normal pt-3 pb-4 line-clamp-2'>Items not centering properly with flexbox despite using justify-content 
         and align-items. CSS is apparently having trust issues with me again.</p>
         <ul className='flex flex-wrap justify-start pt-2 gap-2 w-cardItem'>
           <li>

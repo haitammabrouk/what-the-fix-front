@@ -18,9 +18,12 @@ export default {
         homeTitle: '1000px',
         searchBar: '800px',
         cardItem: '995px',
+        fixPopup: '650px',
+        popupInput: '610px'
       },
       height: {
-        cardHeight: '440px'
+        cardHeight: '440px',
+        fixPopup: '530px',
       }
     },
   },

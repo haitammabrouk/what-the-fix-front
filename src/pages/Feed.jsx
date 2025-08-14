@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../components/Navbar'
 import thunder from '../assets/thunder.png'
 import SearchBar from '../components/SearchBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import Card from '../components/Card'
+import FixPopup from '../components/FixPopup'
 
 function Feed() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const openPopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
+
   return (
     <div className='feed w-full h-full bg-secondary'>
       <Navbar />
-      <div className='pt-20'>
+      <div className='pt-20 pb-10'>
         <div className='content space-y-4'>
             <div className='flex justify-center items-center space-x-3'>
                 <img src={thunder} alt='fast' />
@@ -24,7 +30,7 @@ function Feed() {
            </div>
         </div>
         <div className='flex justify-center pt-16'>
-            <SearchBar />
+            <SearchBar openPopup={openPopup} />
         </div>
         <div className='flex justify-center items-center w-full'>
             <div className='pt-5 bg-secondary w-cardItem flex items-center justify-between'>
@@ -44,6 +50,15 @@ function Feed() {
             </ul>
         </div>
       </div>
+
+      {/* Modal Popup */}
+      {isPopupOpen && (
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+          <div className='relative'>
+            <FixPopup onClose={closePopup} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
