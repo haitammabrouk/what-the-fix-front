@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import thunder from '../assets/thunder.png'
 import SearchBar from '../components/SearchBar'
@@ -6,14 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import Card from '../components/Card'
 import FixPopup from '../components/FixPopup'
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import api from '../api/config'
 
 function Feed() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [openToast, setOpenToast] = useState(false);
   const [isReqSuccess, setIsReqSuccess] = useState(false);
+  const [fixes, setFixes] = useState([]);
 
   const checkIfReqIsSuccess = (isReqSuccess) => setIsReqSuccess(isReqSuccess);
 
@@ -31,6 +32,21 @@ function Feed() {
     }
     setOpenToast(false);
   };
+
+  // fetch all fixes
+  useEffect(() => {
+    const fetchFixes = async () => {
+      try {        
+        const response = await api.get('/fixes');
+        console.log('Fixes fetched:', response.data);
+        setFixes(response.data);
+      } catch (error) {
+        console.error('Error fetching fixes:', error);
+      }
+    };
+
+    fetchFixes();
+  }, []);
 
   return (
     <div className='feed w-full h-full bg-secondary'>
@@ -60,12 +76,7 @@ function Feed() {
         </div>
         <div className='flex justify-center'>
             <ul className='problems pt-10 space-y-10'>
-              <li>
-                <Card />
-              </li>
-              <li>
-                <Card />
-              </li>
+              {fixes.map(fix => <li key={fix.title}><Card fix={fix}/></li>)}
             </ul>
         </div>
       </div>

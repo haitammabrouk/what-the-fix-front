@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Tag() {
+function Tag({tag}) {
   return (
     <div className='tag flex text-white bg-violet rounded-2xl px-3 text-lg font-medium'>
-      <span>#react</span>
+      <span>{tag}</span>
     </div>
   )
 }
