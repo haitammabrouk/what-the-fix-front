@@ -15,6 +15,7 @@ function Feed() {
   const [openToast, setOpenToast] = useState(false);
   const [isReqSuccess, setIsReqSuccess] = useState(false);
   const [fixes, setFixes] = useState([]);
+  const [isAdded, setIsAdded] = useState(false);
 
   const checkIfReqIsSuccess = (isReqSuccess) => setIsReqSuccess(isReqSuccess);
 
@@ -46,10 +47,10 @@ function Feed() {
     };
 
     fetchFixes();
-  }, []);
+  }, [isAdded]);
 
   return (
-    <div className='feed w-full h-full bg-secondary'>
+    <div className='feed w-full h-max bg-secondary'>
       <Navbar />
       <div className='pt-20 pb-10'>
         <div className='content space-y-4'>
@@ -85,7 +86,7 @@ function Feed() {
       {isPopupOpen && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
           <div className='relative'>
-            <FixPopup checkIfReqIsSuccess={checkIfReqIsSuccess} handleClick={handleClick} onClose={closePopup} />
+            <FixPopup checkIfReqIsSuccess={checkIfReqIsSuccess} handleClick={handleClick} onClose={closePopup} setIsAdded={setIsAdded} isAdded={isAdded} />
           </div>
         </div>
       )}

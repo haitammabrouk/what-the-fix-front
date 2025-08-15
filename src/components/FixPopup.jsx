@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import api from '../api/config';
 
-function FixPopup({ onClose, handleClick, checkIfReqIsSuccess }) {
+function FixPopup({ onClose, handleClick, checkIfReqIsSuccess, setIsAdded, isAdded }) {
   const popupRef = useRef(null);
   const [problem, setProblem] = useState('');
   const [solution, setSolution] = useState('');
@@ -60,6 +60,7 @@ function FixPopup({ onClose, handleClick, checkIfReqIsSuccess }) {
         console.log('Form submitted: ', response.data);
         onClose(); // close the popup
         checkIfReqIsSuccess(true);
+        setIsAdded(!isAdded);
     } catch(error) {
         console.error('Error creating a fix: ', error);
         checkIfReqIsSuccess(false);
